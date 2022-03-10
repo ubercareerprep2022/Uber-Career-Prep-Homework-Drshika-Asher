@@ -10,3 +10,11 @@ def isStringPermutation(s1: str, s2: str) -> bool:
 print(isStringPermutation('asdf', 'fsda') == True)
 print(isStringPermutation('asdf', 'fsa') == False)
 print(isStringPermutation('asdf', 'fsax') == False)
+
+#2.2
+def pairsThatEqualSum(inputArray: list, targetSum: int) -> list:
+    return []
+#Test Cases
+print(pairsThatEqualSum([1, 2, 3, 4, 5], 5) == [(1, 4), (2, 3)])
+print(pairsThatEqualSum([1, 2, 3, 4, 5], 1) == [])
+print(pairsThatEqualSum([1, 2, 3, 4, 5], 7) == [(2, 5), (3, 4)])
