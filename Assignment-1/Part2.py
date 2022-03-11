@@ -39,10 +39,11 @@ def pairsThatEqualSum(inputArray: list, targetSum: int) -> list:
 # Time complex: O(n) 
 # Space Complex: is O(n) we're not storing anything additional than the solution
 def pairsThatEqualSumFaster(inputArray: list, targetSum: int) -> list:
+    inputArray = set(inputArray) #making a set is O(n)
     solution = []
     for i in inputArray:
         tgt = targetSum - i
-        if tgt in inputArray: #O(1) lookup on lists
+        if tgt in inputArray: #O(1) lookup on sets
            res = sorted((i, tgt))
            res = tuple(res)
            if res not in solution:
