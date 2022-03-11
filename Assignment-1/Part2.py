@@ -7,11 +7,11 @@ def isStringPermutation(s1: str, s2: str) -> bool:
 #Space time O(n) since this is in place
 
 #Test Cases
-print(isStringPermutation('asdf', 'fsda') == True)
-print(isStringPermutation('asdf', 'fsa') == False)
-print(isStringPermutation('asdf', 'fsax') == False)
+# print(isStringPermutation('asdf', 'fsda') == True)
+# print(isStringPermutation('asdf', 'fsa') == False)
+# print(isStringPermutation('asdf', 'fsax') == False)
 
-#2.2
+#2.2 - Brute Force
 def pairsThatEqualSum(inputArray: list, targetSum: int) -> list:
     solution = []
     for i in inputArray:
@@ -26,14 +26,14 @@ def pairsThatEqualSum(inputArray: list, targetSum: int) -> list:
                 print(solution)
     return solution
 #Test Cases
-print(pairsThatEqualSum([1, 2, 3, 4, 5], 5) == [(1, 4), (2, 3)])
-print(pairsThatEqualSum([1, 2, 3, 4, 5], 1) == [])
-print(pairsThatEqualSum([1, 2, 3, 4, 5], 7) == [(2, 5), (3, 4)])
+# print(pairsThatEqualSum([1, 2, 3, 4, 5], 5) == [(1, 4), (2, 3)])
+# print(pairsThatEqualSum([1, 2, 3, 4, 5], 1) == [])
+# print(pairsThatEqualSum([1, 2, 3, 4, 5], 7) == [(2, 5), (3, 4)])
 
 #Runtime O(n^2) as there are two for loops
 #Spacetime O(n) since we are storing the solution in an array
 
-#Alternate Solution (I big wasted time googling this when I already knew the syntax oops)
+#Alternate Solution (I big wasted time googling how maps works when I already knew the syntax to do it with list lookups)
 #use in keyword to look up for tgt value
 #time > space complexity
 # Time complex: O(n) 
@@ -43,8 +43,12 @@ def pairsThatEqualSumFaster(inputArray: list, targetSum: int) -> list:
     for i in inputArray:
         tgt = targetSum - i
         if tgt in inputArray: #O(1) lookup on lists
-           res = sorted((i, j))
+           res = sorted((i, tgt))
            res = tuple(res)
            if res not in solution:
                solution.append(res)
     return solution
+
+print(pairsThatEqualSumFaster([1, 2, 3, 4, 5], 5) == [(1, 4), (2, 3)])
+print(pairsThatEqualSumFaster([1, 2, 3, 4, 5], 1) == [])
+print(pairsThatEqualSumFaster([1, 2, 3, 4, 5], 7) == [(2, 5), (3, 4)])
