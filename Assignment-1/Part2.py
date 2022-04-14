@@ -3,7 +3,7 @@ def isStringPermutation(s1: str, s2: str) -> bool:
     return sorted(s1) == sorted(s2)
 
 
-#Runtime O(log n) as sorted takes O(log n) time to sort an array of chars
+#Runtime O(log n) as sorted takes O(nlog n) time to sort an array of chars
 #Space time O(n) since this is in place
 
 #Test Cases
@@ -33,16 +33,18 @@ def pairsThatEqualSum(inputArray: list, targetSum: int) -> list:
 #Runtime O(n^2) as there are two for loops
 #Spacetime O(n) since we are storing the solution in an array
 
-#Alternate Solution (I big wasted time googling how maps works when I already knew the syntax to do it with list lookups)
+#Alternate Solution (I big wasted time googling how maps works when I already knew the syntax to do it with set lookups)
+#assuming that we don't return 2 tuples if there are duplicate values
 #use in keyword to look up for tgt value
 #time > space complexity
 # Time complex: O(n) 
 # Space Complex: is O(n) we're not storing anything additional than the solution
 def pairsThatEqualSumFaster(inputArray: list, targetSum: int) -> list:
+    inputArray = set(inputArray) #making a set is O(n)
     solution = []
     for i in inputArray:
         tgt = targetSum - i
-        if tgt in inputArray: #O(1) lookup on lists
+        if tgt in inputArray: #O(1) lookup on sets
            res = sorted((i, tgt))
            res = tuple(res)
            if res not in solution:
