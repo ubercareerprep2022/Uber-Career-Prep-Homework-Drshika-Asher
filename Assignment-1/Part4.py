@@ -1,5 +1,7 @@
 # Implement a Queue class from scratch that handles integers, with the following methods:
 
+#TODO: impl in doubly linked list
+
 import sys
 
 
@@ -7,7 +9,6 @@ class queue:
     def __init__(self):
         # do nothing
         self.queue_items = []
-        self.global_min = sys.maxsize
 
     # isEmpty() → returns whether or not the queue is empty
     def isEmpty(self):
