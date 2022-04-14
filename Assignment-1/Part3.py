@@ -7,7 +7,6 @@
 
 import sys
 
-
 class stack:
     def __init__(self):
         # do nothing
@@ -16,7 +15,10 @@ class stack:
 
     # isEmpty() → Returns True or False if the stack is Empty or not, respectively
     def isEmpty(self):
-        False if not self.stack_items else True
+        if self.stack_items:
+            return False
+        else:
+            return True
 
     # push() → Pushes an integer on top of the stack
     def push(self, val):
