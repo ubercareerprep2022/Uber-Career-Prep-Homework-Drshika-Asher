@@ -1,8 +1,8 @@
 # Implement a Queue class from scratch that handles integers, with the following methods:
 #
-# implementing queue using a singly linked list. 
+# implementing queue using a singly linked list.
 #
-# some edge cases I was considering is making sure that my class works for multiple queue instances; 
+# some edge cases I was considering is making sure that my class works for multiple queue instances;
 # removing more than you add; isempty, enqueue, dequeue, rear, front, size on an on an empty queue
 #
 # this is better for us because enqueue is O(1) instead of O(1) amortized (with lists)
@@ -10,8 +10,9 @@
 
 class Node:
     def __init__(self, data):
-       self.data = data
-       self.next = None 
+        self.data = data
+        self.next = None
+
 
 class queue:
     def __init__(self):
@@ -26,14 +27,14 @@ class queue:
         else:
             return False
 
-    def pprint(self): #made a pretty printer for debugging
+    def pprint(self):  # made a pretty printer for debugging
         if self.isEmpty():
             return "Queue is empty"
         to_print = "[ "
         curr_node = self.top
         while curr_node != None:
             to_print += str(curr_node.data) + " "
-            curr_node = curr_node.next  
+            curr_node = curr_node.next
         return to_print + "]"
 
     # enqueue() → adds an item to the queue
@@ -42,7 +43,7 @@ class queue:
         if self.isEmpty():
             self.top = new_node
             self.back = new_node
-        else:  
+        else:
             self.back.next = new_node
             self.back = self.back.next
         self.queue_size += 1
@@ -62,16 +63,18 @@ class queue:
             return "Queue is empty"
         return self.back.data
     # front() → returns the item at the front of the queue
+
     def front(self):
         if self.isEmpty():
             return "Queue is empty"
-        return self.top.data   
+        return self.top.data
 
     # size() → returns the size of the queue
     def size(self):
         if self.isEmpty():
             return "Queue is Empty"
         return self.queue_size
+
 
 # Basic Tests
 myQueue = queue()

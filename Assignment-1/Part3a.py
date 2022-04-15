@@ -2,31 +2,35 @@ import sys
 # Challenge: Implement the Stack class from scratch(do not use your language’s standard stack or queue library/package methods).
 # In this challenge, your Stack will only accept Integer values. Implement the following methods:
 
-# basically i started with the approach of making the stack as an array and only add and delete from the front. 
-# some edge cases I was considering is making sure that my class works for multiple stack instances, 
+# basically i started with the approach of making the stack as an array and only add and delete from the front.
+# some edge cases I was considering is making sure that my class works for multiple stack instances,
 # removing more than you add, isempty on an empty stack, top, pop and min on an empty stack.
 
-# okay now we do it again but with a singly linked list. 
+# okay now we do it again but with a singly linked list.
 # this is better for us because push is O(1) instead of O(1) amortized (with lists)
+
 
 class Node:
     def __init__(self, data):
-       self.data = data
-       self.next = None 
+        self.data = data
+        self.next = None
+
 
 class stack:
     def __init__(self):
-        self.global_min = sys.maxsize #space time complexity tradeoff for O(1) access for global min
+        # space time complexity tradeoff for O(1) access for global min
+        self.global_min = sys.maxsize
         self.head = None
         self.stack_size = 0
     # isEmpty() → Returns True or False if the stack is Empty or not, respectively
+
     def isEmpty(self):
         if self.stack_size == 0:
             return True
         else:
             return False
 
-    def pprint(self): #made a pretty printer for debugging
+    def pprint(self):  # made a pretty printer for debugging
         to_print = "[ "
         curr_node = self.head
         while curr_node != None:
@@ -47,6 +51,7 @@ class stack:
             self.head = new_head
         self.stack_size += 1
     # pop() → Removes what is on the top of the stack, and returns that value to the caller
+
     def pop(self):
         if self.isEmpty():
             return "Nothing to pop"
@@ -55,20 +60,24 @@ class stack:
         self.stack_size -= 1
         return to_return
     # top() → Looks at the top value, and returns it. Does not manipulate the stack
+
     def top(self):
         if self.isEmpty():
             return "Nothing on top"
         return self.head.data
     # size() → Returns an integer value with the count of elements in the stack
+
     def size(self):
         if self.isEmpty():
             return "Nothing in stack"
         return self.stack_size
     # min() → Returns an integer value of the smallest element in the stack
+
     def min(self):
         if self.isEmpty():
-            return "Nothing in stack"        
+            return "Nothing in stack"
         return self.global_min
+
 
 myStack = stack()
 myStack.push(42)
