@@ -112,20 +112,21 @@ class LinkedList():
         while stack:
             self.push(stack.pop().data)
 
-def reverse_recur(head):
-    # If head is empty or has reached the list end
-    if head is None or head.next is None:
-        return head
+    def reverse_recur(self, subhead, prev):
+        # If head is empty or has reached the head end
+        print(subhead)
+        if subhead is None:
+            return
+        if subhead.next is None:
+            self.head = subhead
+        # Reverse the rest head
+        self.reverse_recur(subhead.next, subhead)
+        tmp = self.tail.next
+        self.tail.next = prev
+        if prev is not None:
+            self.tail = prev
+            self.tail.next = tmp
 
-    # Reverse the rest list
-    rest = reverse_recur(head.next)
-
-    # Put first element at the end
-    head.head = head.next.next
-    head.next = None
-
-    # Fix the header pointer
-    return rest
 
 # running tests to make sure that everything is functional
 class TestLinkedList():
@@ -147,11 +148,11 @@ class TestLinkedList():
 
     def test_reverse_recur(self):
         my_list = LinkedList()
-        my_list.push(11)
-        my_list.push(45)
+        my_list.push(1)
+        my_list.push(2)
         my_list.push(3)
-        reverse_recur(my_list.head)
-        assert my_list.printList() == "3 -> 45 -> 11", "List reverse recursively works well"
+        my_list.reverse_recur(my_list.head, None)
+        assert my_list.printList() == "3 -> 2 -> 1", "List reverse recursively works well"
 
     # testPushBackAddsOneNode
     def test_push(self):
