@@ -12,6 +12,8 @@
 # linked list Implementation (from part 4)
 # I'm going to adapt this to be singly linked (and remove some of the fancy stuff) because I'm assuming that y'all want to see a non-trivial solution
 # Because otherwise you can just set the head to be the tail and the tail to be the head in a doubly linked list and you're done
+from audioop import reverse
+import collections
 
 class Node:
     def __init__(self, val):
@@ -42,15 +44,8 @@ class LinkedList():
         if self.isEmpty():
             self.len = 0
             return None
-        return_node = self.tail
-        if self.size == 1:
-            self.head = None
-            self.tail = None
-        else:  # 1 -> 2 becomes 1
-            new_tail = self.elementAt(self.len-2)
-            print(self.len)
-            new_tail.next = None
-            self.tail = new_tail
+        return_node = self.head 
+        self.head = self.head.next
         self.len -= 1
         return return_node
 
@@ -87,20 +82,77 @@ class LinkedList():
         return p_list
 
     def reverse_iter(self):
-        # example: (1 <=> 2) <=> 3
-        # there's two pointers to change the direction of.
-        # (1) the pointer 1->2 needs to be changed to
-        pass
+        # example: NONE -> (1 -> 2) -> 3
+        # NONE <- (1 <- 2) -> 3
+        # 1 <- (2 -> 3)
+        # 1 <- (2 <- 3)
+        # store the previous, current and next
+        # (1) the pointer 1->2 needs to be changed to (2 -> 1)
+        curr = self.head
+        prev_elem = None
+        while curr != None:
+            next_elem = curr.next
+            curr.next = prev_elem
+            prev_elem = curr
+            curr = next_elem
+
+        self.head.next = None
+        temp_tail = self.head
+        self.head = self.tail
+        self.tail = temp_tail
 
     def reverse_stack(self):
-        pass
+        stack = collections.deque()
+        curr = self.head
+        while curr.next:
+            next_n = curr.next
+            val = self.pop()
+            stack.append(val)
+            curr = next_n
+        while stack:
+            self.push(stack.pop().data)
 
-    def reverse_recur(self):
-        pass
+def reverse_recur(head):
+    # If head is empty or has reached the list end
+    if head is None or head.next is None:
+        return head
 
+    # Reverse the rest list
+    rest = reverse_recur(head.next)
+
+    # Put first element at the end
+    head.head = head.next.next
+    head.next = None
+
+    # Fix the header pointer
+    return rest
 
 # running tests to make sure that everything is functional
 class TestLinkedList():
+    def test_reverse_iter(self):
+        my_list = LinkedList()
+        my_list.push(11)
+        my_list.push(45)
+        my_list.push(3)
+        my_list.reverse_iter()
+        assert my_list.printList() == "3 -> 45 -> 11", "List reverse iteratively works well"
+    
+    def test_reverse_stack(self):
+        my_list = LinkedList()
+        my_list.push(11)
+        my_list.push(45)
+        my_list.push(3)
+        my_list.reverse_stack()
+        assert my_list.printList() == "3 -> 45 -> 11", "List reverse w/stack works well"
+
+    def test_reverse_recur(self):
+        my_list = LinkedList()
+        my_list.push(11)
+        my_list.push(45)
+        my_list.push(3)
+        reverse_recur(my_list.head)
+        assert my_list.printList() == "3 -> 45 -> 11", "List reverse recursively works well"
+
     # testPushBackAddsOneNode
     def test_push(self):
         my_list = LinkedList()
@@ -119,7 +171,7 @@ class TestLinkedList():
         print(my_list.printList())
         my_list.pop()
         print(my_list.printList())
-        assert my_list.printList() == "11 -> 45"
+        assert my_list.printList() == "45 -> 3"
 
     def test_elementAt(self):
         my_list = LinkedList()

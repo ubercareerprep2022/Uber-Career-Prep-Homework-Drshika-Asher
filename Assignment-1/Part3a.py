@@ -84,29 +84,29 @@ myStack.push(42)
 myStack.push(34)
 myStack.push(11)
 
-print(myStack.pprint())
+# print(myStack.pprint())
 
-# prints “Top of stack: 42”
-print("Top of stack: " + str(myStack.top()))
+# # prints “Top of stack: 42”
+# print("Top of stack: " + str(myStack.top()))
 
-# prints “Size of stack: 1”
-print("Size of stack:" + str(myStack.size()))
+# # prints “Size of stack: 1”
+# print("Size of stack:" + str(myStack.size()))
 
-popped_value = myStack.pop()  # testing popping off more than I have
-# popped_value = myStack.pop()
-# popped_value = myStack.pop()
-# popped_value = myStack.pop()
+# popped_value = myStack.pop()  # testing popping off more than I have
+# # popped_value = myStack.pop()
+# # popped_value = myStack.pop()
+# # popped_value = myStack.pop()
 
-print(myStack.pprint())
+# print(myStack.pprint())
 
-# prints “Popped value: 42”
-print("Popped value:" + str(popped_value))
+# # prints “Popped value: 42”
+# print("Popped value:" + str(popped_value))
 
-# prints “Size of stack: 0”
-print("Size of stack:", str(myStack.size()))
+# # prints “Size of stack: 0”
+# print("Size of stack:", str(myStack.size()))
 
-# prints "Min: 11"
-print("Min:", str(myStack.min()))
+# # prints "Min: 11"
+# print("Min:", str(myStack.min()))
 
 # class stack:
 #     def __init__(self):
