@@ -4,7 +4,7 @@ class Node:
     def __init__(self, val):
         self.data = val
         self.next = None
-        self.prev = None  # cons, we make a space tradeoff for quicker runtime
+        self.prev = None
 
 
 class LinkedList:
@@ -22,93 +22,16 @@ class LinkedList:
         new_node = Node(val)
         if self.isEmpty():  # None->3->None
             self.head = new_node
-            self.tail = self.head
-        else:
-            new_node.prev = self.tail  # 4<-5
-            self.tail.next = new_node  # ->3->4->5
             self.tail = new_node
-        # print("increase size")
+        else:
+            self.tail.next = new_node  # tail -> new_node
+            self.tail = new_node  # -> new_node (tail)
         self.len += 1
-        print(self.len)
-
-    # <Node> pop() → Removes the last node at the end of the linked list, returns that data
-    # okay at this point, I decided that I wanted a doubly linked list for O(1) pop instead of O(n)
-    def pop(self):
-        self.len -= 1
-        if self.isEmpty():
-            self.len = 0
-            return None
-        return_node = self.tail
-        if self.size == 1:
-            self.head = None
-            self.tail = None
-        else:  # 1 -> 2 becomes 1
-            new_tail = return_node.prev
-            new_tail.next = None
-            return_node.prev = None
-            self.tail = new_tail
-        return return_node
-
-    # void insert(uint index,<Node> node) → Adds a single node containing data to a chosen location in the list. If the index is above the size of the list, do nothing
-    # assuming these are 0 indexed
-    # before -> insert -> after
-    # 3 cases
-    # insert at head or tail
-    # insert in the middle of the list
-    def insert(self, idx, node):
-        new_node = Node(node)
-        if self.len == 0:
-            self.push(node)
-        elif idx <= 0:  # for edge cases: if idx < 0, then insert at front
-            self.head.prev = new_node
-            new_node.next = self.head
-            self.head = new_node
-            self.len += 1
-        elif idx >= self.len - 1:  # if idx > 0 then insert at back
-            self.push(node)
-        else:  # 1 -> (2) new_node -> 3
-            node3 = self.elementAt(idx)
-            node1 = node3.prev
-            node1.next = new_node
-            new_node.prev = node1
-            node3.prev = new_node
-            new_node.next = node3
-            self.len += 1
-
-    # void remove(uint index) → remove/delete a single node at the index location in the list. If the node doesn’t exist at the index, do nothing
-    def remove(self, idx):
-        if idx >= self.len or idx < 0:
-            return
-        if self.len == 1:
-            self.head = None
-        elif idx == 0:
-            new_head = self.head.next
-            new_head.prev = None
-            self.head.next = None
-            self.head = new_head
-        elif idx == self.len - 1:
-            new_tail = self.tail.prev
-            new_tail.next = None
-            self.tail.prev = None
-            self.tail = new_tail
-        else:  # this case basically means there are atleast 3 elements. we need to free 4 pointers and delete the middle node
-            to_del = self.elementAt(idx)  # 1 -> to_del -> 3
-            node1 = to_del.prev
-            node3 = to_del.next
-            node1.next = node3
-            node3.prev = node1
-            to_del.prev = None
-            to_del.next = None
-            to_del = None
-        self.len -= 1
 
     # <Node> elementAt(uint index) → Returns a pointer to the node at the index location in the list. If the node doesn’t exist at the index, return nil/null
-    # approach: if the point is closer to head, iterate from the head to point; if the point is closer to the tail, iterate from the tail.
-    # takes o(n/2) time worst case
-    # if len = 5 and idx = 3:
-    #   if len - idx < idx: go from tail
-    #   else: go from the head
+    # approach: walk to idx in the list and return elem. takes O(n) time
     def elementAt(self, idx):
+        # base cases
         if idx == 0:
             return self.head
         elif idx == self.len - 1:
@@ -118,29 +41,79 @@ class LinkedList:
         elif idx > self.len:
             return None
 
-        if (self.len - idx) < idx:  # go from tail
-            curr_node = self.tail.prev
-            ctr = self.len - 3
-            while curr_node != None:
-                if ctr == idx:
-                    return curr_node
-                idx -= 1
-                curr_node = curr_node.prev
-        else:  # go from head
-            curr_node = self.head.next
-            ctr = 1
-            while curr_node != None:
-                if ctr == idx:
-                    return curr_node
-                idx += 1
-                curr_node = curr_node.next
+        curr = self.head
+        ctr = 0
+        while curr:  # walking the linked list
+            if ctr == idx:
+                return curr
+            curr = curr.next
+            ctr += 1
 
     # uint size() → Returns the length of the list.
     def size(self):
         return self.len
-    # void printList() → Returns a string representation of the linked list
-    # format I'm gonna use: 1 -> 2 -> ...
 
+    # <Node> pop() → Removes the last node at the end of the linked list, returns that data
+    def pop(self):
+        if self.isEmpty():  # can't remove nothing
+            self.len = 0
+            return None
+        if self.size == 1:  # 4  = pop() = None
+            self.head = None
+            self.tail = None
+            self.len -= 1
+        else:  # at least 2 elements
+            return_node = self.tail
+            new_tail = self.elementAt(self.len - 2)
+            new_tail.next = None  # removing the pointer to the tail
+            self.tail = new_tail
+            self.len -= 1
+            return return_node
+
+    # void insert(uint index,<Node> node) → Adds a single node containing data to a chosen location in the list. If the index is above the size of the list, do nothing
+    # assuming these are 0 indexed
+    # before -> insert -> after
+    # 3 cases
+    # insert at head or tail
+    # insert in the middle of the list
+    def insert(self, idx, node):
+        new_node = Node(node)
+        if self.isEmpty():
+            self.push(node)
+        elif idx <= 0:  # for edge cases: if idx < 0, then insert at front
+            new_node.next = self.head
+            self.head = new_node
+            self.len += 1
+        elif idx >= self.len - 1:  # if idx > 0 then insert at back
+            self.push(node)
+        else:  # 1 -> (2) new_node -> 3
+            node1 = self.elementAt(idx - 1)
+            node3 = node1.next
+            node1.next = new_node
+            new_node.next = node3
+            self.len += 1
+
+    # void remove(uint index) → remove/delete a single node at the index location in the list. If the node doesn’t exist at the index, do nothing
+    def remove(self, idx):
+        if idx >= self.len or idx < 0:
+            return
+        elif idx == 0:
+            self.head = self.head.next  # remove pointer to old node
+            self.len -=1
+        elif idx == self.len - 1:
+            self.pop()
+        else:  # this case basically means there are at least 3 elements. we need to free 2 pointers and delete the middle node
+            node1 = self.elementAt(idx - 1)  # 1 -> to_del -> 3
+            print(node1.data)
+            to_delete = node1.next
+            print(to_delete.data)
+            node3 = to_delete.next
+            print(node3.data)
+            node1.next = node3
+            to_delete.next = None
+            self.len -= 1
+
+    # pretty printing for debugging
     def printList(self):
         if self.isEmpty():
             return ""
@@ -245,7 +218,7 @@ class TestLinkedList():
 
         # size update on pop
         my_list.pop()
-        assert my_list.size() == 2, "Your list should have 2 elements: 11->45"
+        assert my_list.size() == 2, "[pop] Your list should have 2 elements: 11->45"
 
         # size update on insert
         my_list.insert(1, 1)
@@ -253,4 +226,4 @@ class TestLinkedList():
 
         # size update on remove
         my_list.remove(1)
-        assert my_list.size() == 2, "Your list should have 2 elements: 11->45"
+        assert my_list.size() == 2, "[remove] Your list should have 2 elements: 11->45"
