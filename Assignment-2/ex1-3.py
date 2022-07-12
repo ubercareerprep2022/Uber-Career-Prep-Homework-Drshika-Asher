@@ -81,7 +81,7 @@ seven = TreeNode(7, None, None)
 seventeen = TreeNode(17, six, three)
 one = TreeNode(1, seven, seventeen)
 
-ex = Tree(one)
+ex = Tree(one)  
 empty_tree = Tree(None)
 # print(ex.root.data)
 
