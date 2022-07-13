@@ -66,6 +66,7 @@ class PhoneBook:
     # @param phoneNumber The phone number for the entry.
     def insert(self, subroot, name, number):
         if subroot is None:
+            self.size +=1
             return PhoneBookEntry(name, number)
         else:
             if subroot.name < name:
