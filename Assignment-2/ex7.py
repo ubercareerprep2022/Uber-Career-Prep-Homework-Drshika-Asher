@@ -1,4 +1,7 @@
 # assumptions: graph is undirected
+from collections import deque
+
+
 class GraphNode:
     def __init__(self, data):
         self.data = data
@@ -64,6 +67,39 @@ class Graph:
             for value in graph.graph[key]:
                 print_g[key.data].append(value.data)
         print(print_g)
+    
+    # Depth-First Traversal: A depth-first traversal starts at an arbitrary root node and explores nodes as deeper as possible along each branch
+    def bfs(self, key:int):
+        visited = set()
+        queue = deque() # bfs barbeque
+        s_node = self.findNode(key)
+        queue.append(s_node)
+        visited.add(s_node)
+        while queue:
+            s = queue.popleft()
+            print(s.data, end = " ")
+
+            for neighbor in graph.graph[s]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+            
+
+    # Write a method to perform BFS(int key) traverses BFS  starting from key printing each node along the way. 
+    def dfs(self, key:int):
+        visited = set()
+        stack = deque() # just same thing as bfs but with stack. i chose iterative impl but you could do with queue
+        s_node = self.findNode(key)
+        stack.append(s_node)
+        visited.add(s_node)
+        while stack:
+            s = stack.pop()
+            print(s.data, end = " ")
+
+            for neighbor in graph.graph[s]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    stack.append(neighbor)
 
 
 # TEST GRAPH CLASS
@@ -80,16 +116,25 @@ graph.addEdge(2,5)
 graph.addEdge(3,4)
 graph.addEdge(4,5)
 
-# EXPECTED: {1: [2, 3], 2: [1, 3, 5], 3: [1, 2, 4], 4: [3, 5], 5: [2, 4]}
-graph.pprint()
-# ACTUAL: {1: [2, 3], 2: [1, 3, 5], 3: [1, 2, 4], 4: [3, 5], 5: [2, 4]}
+# # EXPECTED: {1: [2, 3], 2: [1, 3, 5], 3: [1, 2, 4], 4: [3, 5], 5: [2, 4]}
+# graph.pprint()
+# # ACTUAL: {1: [2, 3], 2: [1, 3, 5], 3: [1, 2, 4], 4: [3, 5], 5: [2, 4]}
 
-# EXPECTED: {2: [3, 5], 3: [2, 4], 4: [3, 5], 5: [2, 4]}
-graph.removeNode(1)
-graph.pprint()
-# ACTUAL: {2: [3, 5], 3: [2, 4], 4: [3, 5], 5: [2, 4]}
+# # EXPECTED: {2: [3, 5], 3: [2, 4], 4: [3, 5], 5: [2, 4]}
+# graph.removeNode(1)
+# graph.pprint()
+# # ACTUAL: {2: [3, 5], 3: [2, 4], 4: [3, 5], 5: [2, 4]}
 
-# EXPECTED: {2: [5], 3: [4], 4: [3, 5], 5: [2, 4]}
-graph.removeEdge(2,3)
-graph.pprint()  
-# ACTUAL: {2: [5], 3: [4], 4: [3, 5], 5: [2, 4]}
+# # EXPECTED: {2: [5], 3: [4], 4: [3, 5], 5: [2, 4]}
+# graph.removeEdge(2,3)
+# graph.pprint()  
+# # ACTUAL: {2: [5], 3: [4], 4: [3, 5], 5: [2, 4]}
+
+# # TEST TRAVERSAL
+# # EXPECTED: 1 2 3 5 4
+# graph.bfs(1)
+# # ACTUAL: 1 2 3 5 4
+
+# # EXPECTED: 1 3 4 5 2
+# graph.dfs(1)
+# # ACTUAL: 1 3 4 5 2
